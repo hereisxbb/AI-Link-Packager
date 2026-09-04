@@ -1,0 +1,65 @@
+{
+  "name": "ai-link-packager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Package Adobe Illustrator AI files with linked assets using Illustrator JSX.",
+  "main": "dist-electron/electron/main.js",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:electron": "tsc -p tsconfig.electron.json && electron dist-electron/electron/main.js",
+    "test": "vitest run --environment node",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build --base ./ --outDir dist-renderer && tsc -p tsconfig.electron.json",
+    "dist:win": "npm run build && electron-builder --win --x64",
+    "pack:win": "npm run build && electron-builder --win --x64 --dir"
+  },
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0",
+    "vitest": "^2.0.0"
+  },
+  "devDependencies": {
+    "electron": "^44.2.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.ailinkpackager.desktop",
+    "productName": "AI Link Packager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist-renderer/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "${productName}-Setup-${version}-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}-${arch}.${ext}"
+    }
+  }
+}
