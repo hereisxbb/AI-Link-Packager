@@ -12,7 +12,7 @@ AI Link Packager is a Windows desktop tool that packages Adobe Illustrator `.ai`
 ## Preview
 
 <p align="center">
-  <img src="docs/app-preview.png" alt="AI Link Packager main interface" width="100%">
+  <img src="docs/app-preview.jpg" alt="AI Link Packager main interface" width="100%">
 </p>
 
 <p align="center">
