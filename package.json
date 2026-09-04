@@ -10,7 +10,7 @@
     "test": "vitest run --environment node",
     "typecheck": "tsc --noEmit",
     "build": "vite build --base ./ --outDir dist-renderer && tsc -p tsconfig.electron.json",
-    "dist:win": "npm run build && electron-builder --win --x64",
+    "dist:win": "npm run build && electron-builder --win --x64 --publish never",
     "pack:win": "npm run build && electron-builder --win --x64 --dir"
   },
   "dependencies": {

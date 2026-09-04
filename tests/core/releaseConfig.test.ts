@@ -8,6 +8,7 @@ describe("Windows release configuration", () => {
     const targets = pkg.build.win.target.map((entry: { target: string }) => entry.target);
 
     expect(pkg.scripts["dist:win"]).toContain("electron-builder");
+    expect(pkg.scripts["dist:win"]).toContain("--publish never");
     expect(pkg.devDependencies["electron-builder"]).toBeTruthy();
     expect(targets).toContain("nsis");
     expect(targets).toContain("portable");
