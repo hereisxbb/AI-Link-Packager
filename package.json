@@ -1,6 +1,6 @@
 {
   "name": "ai-link-packager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Package Adobe Illustrator AI files with linked assets using Illustrator JSX.",
   "main": "dist-electron/electron/main.js",
