@@ -9,6 +9,16 @@
 
 AI Link Packager is a Windows desktop tool that packages Adobe Illustrator `.ai` files together with the external assets they actually link to. It uses your locally installed Illustrator to read real link data, copies those assets into `Links` folders, relinks the packaged copy, and leaves your original files untouched.
 
+## Preview
+
+<p align="center">
+  <img src="docs/app-preview.png" alt="AI Link Packager main interface" width="100%">
+</p>
+
+<p align="center">
+  <em>Add Illustrator files, choose an output folder, and package linked assets without modifying the originals.</em>
+</p>
+
 ## Download
 
 **Recommended:** [Download the latest Portable release](https://github.com/hereisxbb/AI-Link-Packager/releases/latest) — no installation required.
@@ -83,6 +93,10 @@ AI Link Packager does not guess filenames by parsing the `.ai` file directly. In
 6. writes packaging and debug reports.
 
 The original `.ai` file and original linked assets are not overwritten.
+
+## Packaging Result
+
+After a successful run, AI Link Packager shows how many files were fully packaged, which jobs have missing linked assets, and whether any files failed. From the completion screen you can open the generated package folder directly or start a new packaging run.
 
 ## Important Notes
 
