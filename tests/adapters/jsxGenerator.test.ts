@@ -29,6 +29,20 @@ describe("generateIllustratorRunnerJsx", () => {
     expect(jsx).not.toContain("sourceFile.copy(outputFile)");
   });
 
+  it("skips placed items that do not expose an external file instead of failing the whole job", () => {
+    const jsx = generateIllustratorRunnerJsx({
+      jobsJsonPath: "F:\\输出\\jobs.json",
+      reportJsonlPath: "F:\\输出\\package_report.jsonl"
+    });
+
+    expect(jsx).toContain("var linkedFile = null;");
+    expect(jsx).toContain("linkedFile = item.file;");
+    expect(jsx).toContain("catch (fileAccessError)");
+    expect(jsx).toContain("embedded or unlinked placed item");
+    expect(jsx).toContain("if (!linkedFile) {");
+    expect(jsx).toContain("var source = new File(linkedFile.fsName);");
+  });
+
   it("reports copy and relink failures without counting them as missing links", () => {
     const jsx = generateIllustratorRunnerJsx({
       jobsJsonPath: "F:\\输出\\jobs.json",
