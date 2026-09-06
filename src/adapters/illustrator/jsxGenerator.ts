@@ -134,32 +134,39 @@ export function generateIllustratorRunnerJsx(options: { jobsJsonPath: string; re
 
       for (var i = 0; i < items.length; i += 1) {
         var item = items[i];
-        if (!item.file) {
-          missing.push("[no file object]");
+        var linkedFile = null;
+        try {
+          linkedFile = item.file;
+        } catch (fileAccessError) {
+          debugLog("embedded or unlinked placed item: " + i);
+          continue;
+        }
+        if (!linkedFile) {
+          debugLog("embedded or unlinked placed item: " + i);
           continue;
         }
 
-        var source = new File(item.file.fsName);
+        var source = new File(linkedFile.fsName);
         if (!source.exists) {
-          missing.push(item.file.fsName);
+          missing.push(linkedFile.fsName);
           continue;
         }
 
         var copied = uniqueFile(job.linksDir, source.displayName || source.name);
         try {
           if (!source.copy(copied)) {
-            packageErrors.push("Cannot copy linked file: " + item.file.fsName);
+            packageErrors.push("Cannot copy linked file: " + linkedFile.fsName);
             continue;
           }
         } catch (copyError) {
-          packageErrors.push("Cannot copy linked file: " + item.file.fsName + " (" + String(copyError && copyError.message ? copyError.message : copyError) + ")");
+          packageErrors.push("Cannot copy linked file: " + linkedFile.fsName + " (" + String(copyError && copyError.message ? copyError.message : copyError) + ")");
           continue;
         }
 
         try {
           item.relink(copied);
         } catch (relinkError) {
-          packageErrors.push("Cannot relink copied file: " + item.file.fsName + " (" + String(relinkError && relinkError.message ? relinkError.message : relinkError) + ")");
+          packageErrors.push("Cannot relink copied file: " + linkedFile.fsName + " (" + String(relinkError && relinkError.message ? relinkError.message : relinkError) + ")");
           continue;
         }
 
