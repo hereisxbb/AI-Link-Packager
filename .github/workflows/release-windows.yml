@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "v*"
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -11,6 +13,7 @@ permissions:
 
 jobs:
   build-windows:
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/v') || github.event.head_commit.message == 'Release v0.1.2'
     runs-on: windows-latest
 
     steps:
@@ -49,12 +52,25 @@ jobs:
             release/AI Link Packager-Portable-*.exe
           if-no-files-found: error
 
+      - name: Publish requested v0.1.2 release
+        if: github.ref == 'refs/heads/main' && github.event.head_commit.message == 'Release v0.1.2'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v0.1.2 `
+            "release/AI Link Packager-Setup-0.1.2-x64.exe" `
+            "release/AI Link Packager-Portable-0.1.2-x64.exe" `
+            --title "AI Link Packager v0.1.2" `
+            --notes-file RELEASE_NOTES_v0.1.2.md `
+            --target "${{ github.sha }}"
+
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           name: AI Link Packager ${{ github.ref_name }}
-          body_path: RELEASE_NOTES_v0.1.0.md
+          body_path: RELEASE_NOTES_v0.1.2.md
           files: |
             release/AI Link Packager-Setup-*.exe
             release/AI Link Packager-Portable-*.exe
